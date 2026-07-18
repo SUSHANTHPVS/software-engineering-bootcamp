@@ -1,19 +1,44 @@
-let x = 100;
+function createVisitorCounter(roomName = "Visitor Counter") {
+    let visitors = 0; // Private variable (Closure)
 
-function one() {
+    return {
+        enter() {
+            visitors++;
+            console.log(`[${roomName}] Visitor #${visitors} entered`);
+        },
 
-    let y = 50;
+        exit() {
+            if (visitors === 0) {
+                console.log(`[${roomName}] No visitors to exit`);
+                return;
+            }
 
-    function two() {
+            visitors--;
+            console.log(`[${roomName}] One visitor exited`);
+        },
 
-        console.log(x);
+        totalVisitors() {
+            console.log(`[${roomName}] Current Visitors: ${visitors}`);
+        },
 
-        console.log(y);
-
-    }
-
-    two();
-
+        reset() {
+            visitors = 0;
+            console.log(`[${roomName}] Counter Reset`);
+        }
+    };
 }
+const visitor = createVisitorCounter();
 
-one();
+visitor.enter();
+visitor.enter();
+visitor.enter();
+
+visitor.totalVisitors();
+
+visitor.exit();
+
+visitor.totalVisitors();
+
+visitor.reset();
+
+visitor.totalVisitors();
